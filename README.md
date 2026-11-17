@@ -33,7 +33,7 @@ Vercel, framework preset "Other", no build command, output directory `.` (root).
 
 ## Contact form
 
-The form posts JSON to `/api/contact`, a Vercel Node function with no dependencies. It checks the fields, drops bots that fill the hidden `website` honeypot, limits size (16 KB body, 5000 character message) and rate (5 messages per IP per 10 minutes, per warm instance), then sends the message through the Resend HTTP API with `reply_to` set to the visitor's email, so replying in the inbox answers the visitor.
+The form posts JSON to `/api/contact`, a Vercel Node function with no dependencies. It checks the fields, rejects bots that fill the hidden `rb_hp` honeypot, limits size (16 KB body, 5000 character message) and rate (5 messages per IP per 10 minutes, per warm instance), then sends the message through the Resend HTTP API with `reply_to` set to the visitor's email, so replying in the inbox answers the visitor.
 
 Environment variables (Vercel project > Settings > Environment Variables):
 

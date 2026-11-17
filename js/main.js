@@ -25,7 +25,7 @@
     sent.classList.remove('show');
     fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
       nome:f.nome.value, tel:f.tel.value, email:email, assunto:f.assunto.value, msg:f.msg.value,
-      consent:document.getElementById('ok').checked, website:f.website.value
+      consent:document.getElementById('ok').checked, rb_hp:f.rb_hp.value
     })}).then(function(r){
       return r.json().catch(function(){return {};}).then(function(d){
         if(r.ok&&d.ok){ say('Obrigado. Sua mensagem foi enviada e retornaremos o contato em breve.'); f.reset(); return; }

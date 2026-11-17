@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css?v=2">
+<link rel="stylesheet" href="css/styles.css?v=3">
 </head>
 <body>
 
@@ -213,7 +213,7 @@
       </div>
       <div class="fld"><label for="msg">Mensagem</label><textarea id="msg" name="msg"></textarea></div>
       <label class="consent"><input type="checkbox" id="ok" required><span>Concordo com o tratamento dos meus dados para retorno do contato, conforme a <a href="#">Política de Privacidade</a> e a LGPD.</span></label>
-      <div class="hp" aria-hidden="true"><label for="website">Não preencha este campo</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
+      <div class="hp" aria-hidden="true"><label for="rb_hp">Deixe em branco</label><input id="rb_hp" name="rb_hp" type="text" tabindex="-1" autocomplete="off" data-lpignore="true" data-1p-ignore data-bwignore></div>
       <button class="btn ink" type="submit">Enviar mensagem</button>
       <p class="sent" id="sent" role="status"></p>
     </form>
@@ -251,6 +251,6 @@
   </div>
 </footer>
 
-<script src="js/main.js?v=2"></script>
+<script src="js/main.js?v=3"></script>
 </body>
 </html>

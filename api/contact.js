@@ -40,7 +40,9 @@ function esc(v) {
   return v.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
 
-function send(res, status, body) {
+function send(res, status, body, why) {
+  // One log line per request: status and outcome only, no visitor data.
+  console.log('contact: ' + status + ' ' + (why || (body && (body.error || (body.ok ? 'sent' : 'fail')))));
   res.statusCode = status;
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
   res.setHeader('Cache-Control', 'no-store');
@@ -60,8 +62,10 @@ module.exports = async function handler(req, res) {
   if (typeof data === 'string') { try { data = JSON.parse(data); } catch (e) { data = null; } }
   if (!data || typeof data !== 'object') return send(res, 400, { ok: false, error: 'invalid' });
 
-  // Honeypot: real visitors never fill this hidden field. Pretend success to bots.
-  if (typeof data.website === 'string' && data.website.trim() !== '') return send(res, 200, { ok: true });
+  // Honeypot: real visitors never fill this hidden field. Answer with an error (not a fake
+  // success), so a person whose browser autofilled it still sees that nothing was sent.
+  const hp = data.rb_hp != null ? data.rb_hp : data.website;
+  if (typeof hp === 'string' && hp.trim() !== '') return send(res, 400, { ok: false, error: 'spam' }, 'honeypot');
 
   const nome = oneLine(clean(data.nome, LIMITS.nome));
   const tel = oneLine(clean(data.tel, LIMITS.tel));
