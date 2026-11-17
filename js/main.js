@@ -9,17 +9,34 @@
   function onScroll(){ hdr.classList.toggle('solid', track.getBoundingClientRect().bottom < 90); }
   addEventListener('scroll',onScroll,{passive:true}); onScroll();
 
-  /* Contact form: demo only, nothing is sent yet */
-  document.getElementById('form').addEventListener('submit',function(e){
+  /* Contact form: posts to /api/contact, which emails the message through Resend */
+  var form=document.getElementById('form'), sent=document.getElementById('sent'),
+      btn=form.querySelector('button[type="submit"]'), btnText=btn.textContent, busy=false;
+  function say(t,err){ sent.textContent=t; sent.classList.toggle('err',!!err); sent.classList.add('show'); }
+  form.addEventListener('submit',function(e){
     e.preventDefault();
-    var f=e.target, s=document.getElementById('sent');
-    if(!f.nome.value.trim()||!f.email.value.trim()||!document.getElementById('ok').checked){
-      s.textContent='Preencha nome, e-mail e aceite a Política de Privacidade para continuar.';
-    } else {
-      s.textContent='Obrigado. Esta é uma versão de demonstração: o envio será conectado na versão final.';
-      f.reset();
+    if(busy) return;
+    var f=form, email=f.email.value.trim();
+    if(!f.nome.value.trim()||!email||!document.getElementById('ok').checked){
+      return say('Preencha nome, e-mail e aceite a Política de Privacidade para continuar.',true);
     }
-    s.classList.add('show');
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return say('Confira o e-mail informado.',true);
+    busy=true; btn.disabled=true; btn.textContent='Enviando…'; form.setAttribute('aria-busy','true');
+    sent.classList.remove('show');
+    fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+      nome:f.nome.value, tel:f.tel.value, email:email, assunto:f.assunto.value, msg:f.msg.value,
+      consent:document.getElementById('ok').checked, website:f.website.value
+    })}).then(function(r){
+      return r.json().catch(function(){return {};}).then(function(d){
+        if(r.ok&&d.ok){ say('Obrigado. Sua mensagem foi enviada e retornaremos o contato em breve.'); f.reset(); return; }
+        if(r.status===429) return say('Muitas mensagens em pouco tempo. Aguarde alguns minutos e tente de novo.',true);
+        if(d.error==='email') return say('Confira o e-mail informado.',true);
+        if(d.error==='missing') return say('Preencha nome, e-mail e aceite a Política de Privacidade para continuar.',true);
+        say('Não foi possível enviar agora. Tente novamente mais tarde ou fale pelo WhatsApp (18) 99653-7227.',true);
+      });
+    }).catch(function(){
+      say('Não foi possível enviar agora. Verifique sua conexão ou fale pelo WhatsApp (18) 99653-7227.',true);
+    }).then(function(){ busy=false; btn.disabled=false; btn.textContent=btnText; form.removeAttribute('aria-busy'); });
   });
 
   /* Sobre reveal, once */

@@ -191,6 +191,9 @@ form{background:var(--ground);padding:48px;border:1px solid var(--line)}
 .consent a{color:var(--gold-deep);text-decoration:underline;text-underline-offset:3px}
 .sent{display:none;margin-top:20px;font-size:15px;line-height:24px;color:var(--ink);border-top:1px solid var(--gold);padding-top:16px}
 .sent.show{display:block}
+.sent.err{border-top-color:var(--gold-deep)}
+.hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+form .btn:disabled{opacity:.6;cursor:wait}
 
 /* ---------- FAQ ---------- */
 .faq{max-width:840px;margin-left:auto;border-top:1px solid var(--line)}
