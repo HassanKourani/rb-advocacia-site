@@ -1,7 +1,9 @@
 ---
 title: O INSS negou meu benefício. E agora?
 date: 2026-11-18
-description: O indeferimento não é o fim do caminho. Veja o que fazer primeiro, como funciona o recurso ao CRPS e quando faz sentido ir à Justiça Federal.
+description: O indeferimento não é o fim do caminho. Veja o que fazer primeiro,
+  como funciona o recurso ao CRPS e quando faz sentido ir à Justiça Federal.
+image: /assets/img/blog/f80672cf-68b2-4557-8364-9ef4e7d38e31.jpg
 published: true
 ---
 Receber a notícia de que o INSS negou um benefício é frustrante, principalmente para quem contribuiu durante anos ou depende do benefício para se manter. Mas o indeferimento **não é o fim do caminho**: a decisão pode ser contestada.
