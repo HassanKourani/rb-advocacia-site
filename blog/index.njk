@@ -1,9 +1,17 @@
 ---
 layout: base.njk
-permalink: /blog/index.html
 title: Blog
 description: Artigos sobre Direito Previdenciário, aposentadorias, benefícios do INSS e BPC/LOAS, escritos pela Dra. Izabely Ramalho, advogada previdenciarista em Cândido Mota/SP.
+pagination:
+  data: collections.posts
+  size: 9
+  alias: posts
+  generatePageOnEmptyData: true
+permalink: "{% if pagination.pageNumber == 0 %}/blog/index.html{% else %}/blog/pagina/{{ pagination.pageNumber + 1 }}.html{% endif %}"
+eleventyComputed:
+  title: "{% if pagination.pageNumber > 0 %}Blog, página {{ pagination.pageNumber + 1 }}{% else %}Blog{% endif %}"
 ---
+{%- macro pageHref(n) -%}{{ '/blog' if n == 1 else '/blog/pagina/' + n }}{%- endmacro -%}
 <section class="band blog-list">
   <div class="container">
     <div class="head">
@@ -11,23 +19,53 @@ description: Artigos sobre Direito Previdenciário, aposentadorias, benefícios 
       <p class="lead">Explicações simples sobre aposentadorias, benefícios do INSS e os seus direitos previdenciários.</p>
     </div>
 
-    {% if collections.posts.length %}
+    {% if posts.length %}
     <div class="post-grid">
-      {% for post in collections.posts %}
-      <a class="post-card" href="{{ post.url | cleanUrl }}">
-        {% if post.data.image %}<img src="{{ post.data.image }}" alt="" loading="lazy">{% endif %}
+      {% for post in posts %}
+      <a class="post-card{% if loop.first and pagination.pageNumber == 0 %} featured{% endif %}" href="{{ post.url | cleanUrl }}">
+        <div class="post-card-media">
+          {% if post.data.image %}
+          <img src="{{ post.data.image }}" alt="" loading="lazy">
+          {% else %}
+          <div class="post-card-ph" aria-hidden="true"><img src="/assets/img/monogram.webp" alt=""></div>
+          {% endif %}
+        </div>
         <div class="post-card-body">
           <p class="small muted"><time datetime="{{ post.date | isoDate }}">{{ post.date | dataBR }}</time></p>
           <h2 class="h3">{{ post.data.title }}</h2>
           <div class="rule"></div>
-          {% if post.data.description %}<p>{{ post.data.description }}</p>{% endif %}
+          {% if post.data.description %}<p class="post-card-desc">{{ post.data.description }}</p>{% endif %}
           <span class="more">Ler artigo →</span>
         </div>
       </a>
       {% endfor %}
     </div>
+
+    {% set total = pagination.pages.length %}
+    {% if total > 1 %}
+    {% set cur = pagination.pageNumber + 1 %}
+    <nav class="pager" aria-label="Páginas do blog">
+      {% if cur > 1 %}<a class="pager-step ul" href="{{ pageHref(cur - 1) }}">← Mais recentes</a>{% else %}<span class="pager-step off">← Mais recentes</span>{% endif %}
+      <span class="pager-nums">
+        {% for n in range(1, total + 1) %}
+        {% if n == cur %}<span class="pager-num cur" aria-current="page">{{ n }}</span>{% else %}<a class="pager-num" href="{{ pageHref(n) }}" aria-label="Página {{ n }}">{{ n }}</a>{% endif %}
+        {% endfor %}
+      </span>
+      {% if cur < total %}<a class="pager-step ul" href="{{ pageHref(cur + 1) }}">Anteriores →</a>{% else %}<span class="pager-step off">Anteriores →</span>{% endif %}
+    </nav>
+    {% endif %}
+
     {% else %}
-    <p class="lead muted">Em breve, novos artigos.</p>
+    <div class="blog-empty">
+      <img class="blog-empty-mark" src="/assets/img/monogram.webp" alt="" aria-hidden="true">
+      <h2 class="h3">Em breve, novos artigos</h2>
+      <div class="rule"></div>
+      <p class="muted">Enquanto isso, veja as respostas para as dúvidas mais comuns ou agende uma consulta para falar sobre o seu caso.</p>
+      <div class="blog-empty-cta">
+        <a class="btn ink" href="/#duvidas">Perguntas frequentes</a>
+        <a class="txt ul" href="/#contato">Agendar consulta</a>
+      </div>
+    </div>
     {% endif %}
   </div>
 </section>

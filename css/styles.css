@@ -261,17 +261,26 @@ footer nav a{font-size:15px;line-height:24px}
 }
 
 /* ---------- Blog (/blog and /blog/<post>, built by Eleventy) ---------- */
-.blog-main{padding-top:64px;min-height:70vh}
+/* Footer always sits at the bottom, and the page section fills the space above it, so a short page never shows a second background band */
+.blog-page{display:flex;flex-direction:column;min-height:100vh;min-height:100svh}
+.blog-main{flex:1 0 auto;display:flex;flex-direction:column;padding-top:64px}
+.blog-main>*{flex:1 0 auto}
 .h2{font-family:var(--font-display);font-size:48px;line-height:54px;font-weight:500;margin:0;color:var(--ink)}
 .h3{font-family:var(--font-display);font-size:24px;line-height:30px;font-weight:600;margin:0;color:var(--ink)}
 nav a.l[aria-current]::after{transform:scaleX(1)}
 .post-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
 .post-card{display:flex;flex-direction:column;background:var(--ground);border:1px solid var(--line);transition:border-color .25s,transform .35s var(--ease)}
 .post-card:hover{border-color:var(--gold);transform:translateY(-3px)}
-.post-card img{width:100%;aspect-ratio:16/9;object-fit:cover}
+.post-card-media{aspect-ratio:16/9;overflow:hidden;background:var(--primary)}
+.post-card-media>img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
+.post-card:hover .post-card-media>img{transform:scale(1.03)}
+.post-card-ph{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--primary)}
+.post-card-ph::before{content:"";position:absolute;inset:0;background:url("../assets/img/weave.webp") 0 0/240px 240px;mix-blend-mode:overlay;opacity:.35}
+.post-card-ph img{position:relative;width:30%;height:auto;opacity:.55}
 .post-card-body{display:flex;flex-direction:column;gap:8px;padding:28px 28px 32px;flex:1}
 .post-card-body .rule{margin:4px 0 8px}
-.post-card-body p:not(.small){color:var(--muted)}
+.post-card-desc{color:var(--muted);display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.post-card .h3{overflow-wrap:anywhere}
 .post-card .more{margin-top:auto;padding-top:12px;font-size:12px;line-height:16px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-deep)}
 .blog-list{background:var(--surface)}
 .article{padding:72px 0 112px}
@@ -296,6 +305,25 @@ nav a.l[aria-current]::after{transform:scaleX(1)}
 .prose hr{border:0;border-top:1px solid var(--line);margin:40px 0}
 .prose table{width:100%;border-collapse:collapse;font-size:16px}
 .prose th,.prose td{border-bottom:1px solid var(--line);padding:10px 8px;text-align:left}
+/* Newest post on the first page spans the row, so one or two posts still look deliberate */
+.post-card.featured{grid-column:1/-1;flex-direction:row}
+.post-card.featured .post-card-media{flex:0 0 58%;aspect-ratio:auto;min-height:340px}
+.post-card.featured .post-card-ph img{width:24%}
+.post-card.featured .post-card-body{padding:48px 48px 44px;justify-content:center}
+.post-card.featured .h3{font-size:34px;line-height:40px;font-weight:500}
+.post-card.featured .post-card-desc{font-size:18px;line-height:30px}
+.post-card.featured .more{margin-top:12px}
+.pager{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-top:56px;padding-top:28px;border-top:1px solid var(--line)}
+.pager-step{font-size:12px;line-height:16px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-deep)}
+.pager-step.off{color:var(--line)}
+.pager-nums{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.pager-num{display:inline-flex;align-items:center;justify-content:center;min-width:40px;height:40px;padding:0 6px;border:1px solid var(--line);font-size:15px;transition:border-color .25s,background-color .25s}
+a.pager-num:hover{border-color:var(--gold)}
+.pager-num.cur{background:var(--primary);border-color:var(--primary);color:var(--on-primary)}
+.blog-empty{max-width:640px;margin:8px auto 0;padding:56px 48px;background:var(--ground);border:1px solid var(--line);text-align:center}
+.blog-empty-mark{width:72px;height:auto;margin:0 auto 24px;opacity:.85}
+.blog-empty .rule{margin:12px auto 20px}
+.blog-empty-cta{display:flex;align-items:center;justify-content:center;gap:28px;flex-wrap:wrap;margin-top:28px}
 .post-note{margin-top:56px;padding-top:24px;border-top:1px solid var(--line)}
 .post-cta{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-top:40px;padding:32px;background:var(--surface);border:1px solid var(--line)}
 .post-cta p{margin-top:6px}
@@ -307,5 +335,14 @@ nav a.l[aria-current]::after{transform:scaleX(1)}
   .prose{font-size:17px;line-height:28px;margin-top:36px}
   .prose h2{font-size:28px;line-height:34px;margin-top:40px}
   .post-cta{flex-direction:column;align-items:flex-start;padding:24px}
+  .post-card.featured{flex-direction:column}
+  .post-card.featured .post-card-media{flex:none;aspect-ratio:16/9;min-height:0}
+  .post-card.featured .post-card-ph img{width:30%}
+  .post-card.featured .post-card-body{padding:28px 28px 32px}
+  .post-card.featured .h3{font-size:26px;line-height:32px}
+  .post-card.featured .post-card-desc{font-size:17px;line-height:28px}
+  .pager{flex-wrap:wrap;justify-content:center;margin-top:40px}
+  .pager-nums{order:-1;width:100%}
+  .blog-empty{padding:40px 24px}
 }
 @media (min-width:901px) and (max-width:1100px){.post-grid{grid-template-columns:repeat(2,1fr)}}
