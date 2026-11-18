@@ -1,0 +1,47 @@
+---
+layout: base.njk
+ogType: article
+---
+<article class="article">
+  <div class="container narrow">
+    <a class="back-link ul" href="/blog">← Todos os artigos</a>
+    <p class="lab">Blog · <time datetime="{{ page.date | isoDate }}">{{ page.date | dataBR }}</time></p>
+    <div class="rule"></div>
+    <h1 class="post-title">{{ title }}</h1>
+    {% if description %}<p class="lead muted post-lead">{{ description }}</p>{% endif %}
+    <p class="post-by small muted">Por {{ site.author }} · OAB/SP 462.051</p>
+  </div>
+
+  {% if image %}
+  <figure class="container narrow post-cover"><img src="{{ image }}" alt="{{ image_alt or '' }}"></figure>
+  {% endif %}
+
+  <div class="container narrow prose">
+    {{ content | safe }}
+  </div>
+
+  <div class="container narrow">
+    <p class="post-note small muted">Conteúdo informativo, de caráter geral. Cada caso depende de uma análise individual dos documentos e do histórico do segurado.</p>
+    <div class="post-cta">
+      <div>
+        <h2 class="h3">Precisa de orientação sobre o seu caso?</h2>
+        <p class="muted">Agende uma consulta para analisarmos a sua situação.</p>
+      </div>
+      <a class="btn ink" href="/#contato">Agendar consulta</a>
+    </div>
+  </div>
+</article>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": {{ title | dump | safe }},
+  "description": {{ (description or "") | dump | safe }},
+  "datePublished": "{{ page.date | isoDate }}",
+  "author": { "@type": "Person", "name": {{ site.author | dump | safe }} },
+  "publisher": { "@type": "LegalService", "name": {{ site.name | dump | safe }} },
+  {% if image %}"image": {{ (image | absUrl(site.url)) | dump | safe }},{% endif %}
+  "mainEntityOfPage": "{{ (page.url or '/') | cleanUrl | absUrl(site.url) }}"
+}
+</script>

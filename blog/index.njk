@@ -1,0 +1,33 @@
+---
+layout: base.njk
+permalink: /blog/index.html
+title: Blog
+description: Artigos sobre Direito Previdenciário, aposentadorias, benefícios do INSS e BPC/LOAS, escritos pela Dra. Izabely Ramalho, advogada previdenciarista em Cândido Mota/SP.
+---
+<section class="band blog-list">
+  <div class="container">
+    <div class="head">
+      <div><p class="lab">Blog</p><div class="rule"></div><h1 class="h2">Artigos</h1></div>
+      <p class="lead">Explicações simples sobre aposentadorias, benefícios do INSS e os seus direitos previdenciários.</p>
+    </div>
+
+    {% if collections.posts.length %}
+    <div class="post-grid">
+      {% for post in collections.posts %}
+      <a class="post-card" href="{{ post.url | cleanUrl }}">
+        {% if post.data.image %}<img src="{{ post.data.image }}" alt="" loading="lazy">{% endif %}
+        <div class="post-card-body">
+          <p class="small muted"><time datetime="{{ post.date | isoDate }}">{{ post.date | dataBR }}</time></p>
+          <h2 class="h3">{{ post.data.title }}</h2>
+          <div class="rule"></div>
+          {% if post.data.description %}<p>{{ post.data.description }}</p>{% endif %}
+          <span class="more">Ler artigo →</span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="lead muted">Em breve, novos artigos.</p>
+    {% endif %}
+  </div>
+</section>

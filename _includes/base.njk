@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+{%- set pageUrl = ((page.url or '/') | cleanUrl | absUrl(site.url)) %}
+{%- set fullTitle = (title + " | " + site.name) if title else site.name %}
+{%- set ogImg = ((image | absUrl(site.url)) if image else (site.url + "/assets/og-image.jpg")) %}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ fullTitle }}</title>
+<meta name="description" content="{{ description }}">
+<meta name="theme-color" content="#4a1420">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+<link rel="canonical" href="{{ pageUrl }}">
+<meta property="og:type" content="{{ ogType or 'website' }}">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="{{ site.name }}">
+<meta property="og:title" content="{{ title or site.name }}">
+<meta property="og:description" content="{{ description }}">
+<meta property="og:image" content="{{ ogImg }}">
+<meta property="og:url" content="{{ pageUrl }}">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ site.css }}">
+</head>
+<body class="blog-page">
+
+<header id="hdr" class="solid">
+  <div class="bar">
+    <a href="/" class="logo" aria-label="RB Advocacia e Consultoria Jurídica, início"><img src="/assets/img/logo.png" alt="RB Advocacia e Consultoria Jurídica"></a>
+    <nav class="main" aria-label="Principal">
+      <a class="l ul" href="/#sobre">Sobre</a>
+      <a class="l ul" href="/#atuacao">Atuação</a>
+      <a class="l ul" href="/#duvidas">Dúvidas</a>
+      <a class="l ul" href="/blog"{% if page.url and page.url.startsWith('/blog') %} aria-current="page"{% endif %}>Blog</a>
+      <a class="l ul" href="/#contato">Contato</a>
+      <a class="btn out" href="/#contato">Agendar consulta</a>
+    </nav>
+  </div>
+</header>
+
+<main class="blog-main">
+{{ content | safe }}
+</main>
+
+<footer class="on-p">
+  <div class="container">
+    <div class="fgrid">
+      <div>
+        <a href="/" class="logo" aria-label="Voltar ao início"><img src="/assets/img/logo.png" alt="RB Advocacia e Consultoria Jurídica"></a>
+        <p style="margin-top:24px">Dra. Izabely Emmily Ramalho Ribeiro<br>Advogada · OAB/SP 462.051</p>
+      </div>
+      <div>
+        <p class="lab">Escritório</p>
+        <p>Rua Pedro Machado de Lima, 142, Vila Garrido<br>Cândido Mota/SP, CEP 19885-504<br>(18) 99653-7227<br>rb.advocaciaeconsultoria@hotmail.com</p>
+      </div>
+      <div>
+        <p class="lab">Navegação</p>
+        <nav aria-label="Rodapé">
+          <a class="ul" href="/#sobre">Sobre</a>
+          <a class="ul" href="/#atuacao">Áreas de atuação</a>
+          <a class="ul" href="/#formacao">Formação</a>
+          <a class="ul" href="/#duvidas">Perguntas frequentes</a>
+          <a class="ul" href="/blog">Blog</a>
+          <a class="ul" href="/#contato">Contato</a>
+        </nav>
+      </div>
+    </div>
+    <div class="legal">
+      <span>© 2026 RB Advocacia e Consultoria Jurídica</span>
+      <span><a class="ul" href="#">Política de Privacidade</a> · <a class="ul" href="#">Aviso Legal</a></span>
+    </div>
+    <p class="credit">Design e desenvolvimento © 2026 IHM Tech e Hassan Kourani</p>
+  </div>
+</footer>
+
+</body>
+</html>

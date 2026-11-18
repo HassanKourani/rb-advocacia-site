@@ -1,0 +1,62 @@
+# Pages CMS editor (https://app.pagescms.org).
+# Defines the "Artigos do blog" section the lawyer uses to write posts.
+# Each post is saved as blog/posts/<título>.md; images go to assets/img/blog/.
+
+media:
+  input: assets/img/blog
+  output: /assets/img/blog
+  categories: [image]
+  rename: safe
+
+content:
+  - name: artigos
+    label: Artigos do blog
+    description: Escreva, edite ou apague os artigos do blog do site.
+    type: collection
+    path: blog/posts
+    filename: "{primary}.md"
+    format: yaml-frontmatter
+    view:
+      fields: [title, date, published]
+      primary: title
+      sort: [date, title]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: Título
+        type: string
+        required: true
+        options:
+          maxlength: 110
+      - name: date
+        label: Data de publicação
+        type: date
+        required: true
+      - name: description
+        label: Resumo
+        description: Uma ou duas frases. Aparece na lista de artigos, no Google e quando o link é compartilhado no WhatsApp.
+        type: text
+        required: true
+        options:
+          maxlength: 220
+      - name: image
+        label: Imagem de capa (opcional)
+        description: Foto horizontal. Também aparece quando o link é compartilhado.
+        type: image
+      - name: image_alt
+        label: Descrição da imagem (opcional)
+        description: Uma frase curta descrevendo a foto, para leitores de tela.
+        type: string
+      - name: published
+        label: Publicar no site
+        description: Desmarque para guardar como rascunho, sem aparecer no site.
+        type: boolean
+        default: true
+      - name: body
+        label: Texto do artigo
+        type: rich-text
+        required: true
+        options:
+          switcher: false
